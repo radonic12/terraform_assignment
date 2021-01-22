@@ -16,16 +16,12 @@ resource "aws_iam_user" "user" {
 #create roles
 resource "aws_iam_role" "ops_role" {
   name = "ops_role"
+  # I was unsure what is meant by OPS so I left their policy blank
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": [
-        "ec2:Describe*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
     }
   ]
 }
@@ -38,11 +34,11 @@ resource "aws_iam_role" "developer_role" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": [
-        "ec2:Describe*"
-      ],
       "Effect": "Allow",
-      "Resource": "*"
+      "Principal": {
+        "Service": "codebuild.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
